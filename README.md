@@ -7,6 +7,9 @@
 
 The following project integrates AI capabilities into a DevExpress-powered Office File API Web API application. OpenAI API is used to generate descriptions for images in Microsoft Word files and for Excel charts.
 
+> [!note]
+> Before you incorporate this solution in your app, please be sure to read and understand OpenAI's license agreement and terms of use.
+
 ## Implementation Details
 
 The project uses the [Azure.AI.OpenAI](https://www.nuget.org/packages/Azure.AI.OpenAI/) package which adapts OpenAI's REST APIs so it can be used in non-Azure OpenAI development.
