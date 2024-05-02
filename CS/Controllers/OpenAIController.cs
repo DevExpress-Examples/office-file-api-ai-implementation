@@ -19,7 +19,7 @@ namespace RichEditOpenAIWebApi.Controllers
         {
             try
             {
-                var imageDescriber = new OpenAIClientImageHelper(openAIApiKey);
+                var imageHelper = new OpenAIClientImageHelper(openAIApiKey);
                 using (var server = new RichEditDocumentServer())
                 {
                     await RichEditHelper.LoadFile(server, documentWithImage);
@@ -29,7 +29,7 @@ namespace RichEditOpenAIWebApi.Controllers
                         foreach (var shape in document.Shapes)
                         {
                             if (shape.Type == DevExpress.XtraRichEdit.API.Native.ShapeType.Picture && string.IsNullOrEmpty(shape.AltText))
-                                shape.AltText = imageDescriber.DescribeImageAsync(shape.PictureFormat.Picture).Result;
+                                shape.AltText = imageHelper.DescribeImageAsync(shape.PictureFormat.Picture).Result;
                         }
                     });
 
@@ -51,7 +51,7 @@ namespace RichEditOpenAIWebApi.Controllers
         {
             try
             {
-                var imageDescriber = new OpenAIClientImageHelper(openAIApiKey);
+                var imageHelper = new OpenAIClientImageHelper(openAIApiKey);
                 using (var workbook = new Workbook())
                 {
                     await SpreadsheetHelper.LoadWorkbook(workbook, documentWithImage);
@@ -61,7 +61,7 @@ namespace RichEditOpenAIWebApi.Controllers
                         foreach (var chart in worksheet.Charts)
                         {
                             OfficeImage image = chart.ExportToImage();
-                            chart.AlternativeText = await imageDescriber.DescribeImageAsync(image);
+                            chart.AlternativeText = await imageHelper.DescribeImageAsync(image);
                         }
                     }
 
