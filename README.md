@@ -26,4 +26,4 @@ For Excel files, charts are converted to images to obtain a relevant description
 
 ## Documentation
 
-* [Office File API — Enhance Accessibility in Office Documents (Word & Excel) using OpenAI Models](https://community.devexpress.com/blogs/office/archive/2024/04/18/enhance-accessibility-in-office-documents-word-amp-excel-using-artificial-intelligence-system.aspx)
+* [Office File API — Enhance Accessibility in Office Documents (Word & Excel) using OpenAI Models](https://community.devexpress.com/blogs/office/archive/2024/05/08/enhance-accessibility-in-office-documents-word-and-excel-using-artificial-intelligence-system.aspx)
