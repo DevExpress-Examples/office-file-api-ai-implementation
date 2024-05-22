@@ -3,7 +3,7 @@ using DevExpress.XtraRichEdit.API.Native;
 
 namespace RichEditOpenAIWebApi.BusinessObjects {
     static class RichEditExtension {
-        internal static void GenerateAltTextForImages(this IRichEditDocumentServer server, Action<SubDocument> action) {
+        internal static void IterateSubDocuments(this IRichEditDocumentServer server, Action<SubDocument> action) {
             Document document = server.Document;
             UpdateSubDocument(document, action);
             foreach (var section in document.Sections) {

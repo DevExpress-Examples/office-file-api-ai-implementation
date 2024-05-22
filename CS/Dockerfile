@@ -1,5 +1,5 @@
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-bullseye-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -14,7 +14,7 @@ RUN echo "deb http://ftp.debian.org/debian/ bullseye contrib" >> /etc/apt/source
 RUN apt update
 RUN apt install -y ttf-mscorefonts-installer
  
-FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
  
 # Specify your DevExpress NuGet Feed URL as the package source

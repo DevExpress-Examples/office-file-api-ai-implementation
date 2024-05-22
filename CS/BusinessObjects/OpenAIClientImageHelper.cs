@@ -17,19 +17,17 @@ namespace RichEditOpenAIWebApi.BusinessObjects {
             }
         }
         internal async Task<string> DescribeImageAsync(OfficeImage image) {
-            string base64Content = ConvertDXImageToBase64String(image.DXImage);
-            string imageContentType = OfficeImage.GetContentType(OfficeImageFormat.Png);
-            return await GetImageDescription($"data:{imageContentType};base64,{base64Content}");
+            return await GetImageDescription(image.GetImageBytes(OfficeImageFormat.Png));
         }
-        internal async Task<string> GetImageDescription(string uriString) {
+        internal async Task<string> GetImageDescription(byte[] imageBytes) {
             ChatCompletionsOptions chatCompletionsOptions = new() {
                 DeploymentName = "gpt-4-vision-preview",
                 Messages =
                 {
-                    new ChatRequestSystemMessage("You are a helpful assistant that describes images."),
+                    new ChatRequestSystemMessage("You are a helpful assistant that describes hyperlinks."),
                     new ChatRequestUserMessage(
                         new ChatMessageTextContentItem("Give a description of this image in no more than 10 words"),
-                        new ChatMessageImageContentItem(new Uri(uriString))),
+                        new ChatMessageImageContentItem(BinaryData.FromBytes(imageBytes), "image/png"))
                 },
                 MaxTokens = 300
             };
@@ -38,6 +36,5 @@ namespace RichEditOpenAIWebApi.BusinessObjects {
             ChatChoice choice = chatResponse.Value.Choices[0];
             return choice.Message.Content;
         }
-
     }
 }
