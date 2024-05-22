@@ -5,7 +5,7 @@
 <!-- default badges end -->
 # Office File API – Integrate AI to Generate Accessible Descriptions
 
-The following project integrates AI capabilities into a DevExpress-powered Office File API Web API application. OpenAI API is used to generate descriptions for images in Microsoft Word files and for Excel charts.
+The following project integrates AI capabilities into a DevExpress-powered Office File API Web API application. OpenAI API is used to generate descriptions for images, charts and hyperlinks in Microsoft Word and Excel files.
 
 > [!note]
 > Before you incorporate this solution in your app, please be sure to read and understand OpenAI's license agreement and terms of use.
@@ -14,7 +14,7 @@ The following project integrates AI capabilities into a DevExpress-powered Offic
 
 The project uses the [Azure.AI.OpenAI](https://www.nuget.org/packages/Azure.AI.OpenAI/) package which adapts OpenAI's REST APIs so it can be used in non-Azure OpenAI development.
 
-The `OpenAIClientImageHelper` class sends a request to describe an image and obtain a string with a response. The `OpenAIClientImageHelper` class methods are executed within corresponding endpoints.
+The `OpenAIClientImageHelper` class sends a request to describe an image and obtain a string with a response. The `OpenAIClientHyperlinkHelper` class sends a request to describe an hyperlink and obtain a string with a response. The `OpenAIClientImageHelper.DescribeImageAsync` and `OpenAIClientHyperlinkHelper.DescribeHyperlinkAsync` methods are executed within corresponding endpoints.
 
 For Excel files, charts are converted to images to obtain a relevant description.
 
@@ -22,6 +22,7 @@ For Excel files, charts are converted to images to obtain a relevant description
 
 * [OpenAIController.cs](./CS/Controllers/OpenAIController.cs)
 * [OpenAIClientImageHelper.cs](./CS/BusinessObjects/OpenAIClientImageHelper.cs)
+* [OpenAIClientHyperlinkHelper.cs](./CS/BusinessObjects/OpenAIClientHyperlinkHelper.cs)
 * [Helpers.cs](./CS/BusinessObjects/Helpers.cs)
 
 ## Documentation
