@@ -56,7 +56,7 @@ namespace RichEditOpenAIWebApi.Controllers
                                             Comment comment = document.Comments.Create(paragraph.Range, "Translator");
                                             SubDocument commentDoc = comment.BeginUpdate();
                                             string translatedText = translationHelper.TranslateText(paragraphText, language, "en").Result;
-                                            commentDoc.InsertText(commentDoc.Range.Start, $"Delected Language: {language}\r\nTranslation (en): {translatedText}");
+                                            commentDoc.InsertText(commentDoc.Range.Start, $"Detected Language: {language}\r\nTranslation (en): {translatedText}");
                                             comment.EndUpdate(commentDoc);
                                         }
                                     }
