@@ -26,7 +26,7 @@ namespace RichEditOpenAIWebApi.Controllers
             try
             {
                 var languageHelper = new AzureAILanguageHelper(languageAzureKey, languageEndPoint);
-                var translationHelper = new AzureAITranslationHelper(translationAzureKey, translationEndPoint, "westeurope");
+                var translationHelper = new AzureAITranslationHelper(translationAzureKey, translationEndPoint);
                 using (var server = new RichEditDocumentServer())
                 {
                     await RichEditHelper.LoadFile(server, documentWithHyperlinks);
