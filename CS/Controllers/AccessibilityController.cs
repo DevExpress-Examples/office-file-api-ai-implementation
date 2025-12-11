@@ -1,29 +1,33 @@
-﻿using DevExpress.Office.Utils;
+﻿using DevExpress.AIIntegration;
+using DevExpress.Office.Utils;
 using DevExpress.Spreadsheet;
-using DevExpress.XtraPrinting.Native;
 using DevExpress.XtraRichEdit;
-using DevExpress.XtraRichEdit.API.Native;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.AI;
 using RichEditOpenAIWebApi.BusinessObjects;
+using RichEditOpenAIWebApi.BusinessObjects.RichEditOpenAIWebApi.BusinessObjects;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Globalization;
 using System.Net;
 
 namespace RichEditOpenAIWebApi.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class OpenAIController : ControllerBase
+    public class AccessibilityController : ControllerBase
     {
-        // Insert your OpenAI key
-        string openAIApiKey = "";
+        private readonly IChatClient _chatClient;
+
+        public AccessibilityController(IChatClient chatClient)
+        {
+            _chatClient = chatClient;
+        }
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK, "Download a file", typeof(FileContentResult))]
         public async Task<IActionResult> GenerateImageAltText(IFormFile documentWithImage, [FromQuery] RichEditFormat outputFormat)
         {
             try
             {
-                var imageHelper = new OpenAIClientImageHelper(openAIApiKey);
+                var imageHelper = new ImageHelper(_chatClient);
                 using (var wordProcessor = new RichEditDocumentServer())
                 {
                     await RichEditHelper.LoadFile(wordProcessor, documentWithImage);
@@ -33,7 +37,10 @@ namespace RichEditOpenAIWebApi.Controllers
                         foreach (var shape in document.Shapes)
                         {
                             if (shape.Type == DevExpress.XtraRichEdit.API.Native.ShapeType.Picture && string.IsNullOrEmpty(shape.AltText))
-                                shape.AltText = imageHelper.DescribeImageAsync(shape.PictureFormat.Picture).Result;
+                            {
+                                string description = imageHelper.DescribeImageAsync(shape.PictureFormat.Picture).Result;
+                                shape.AltText = description;
+                            }
                         }
                     });
 
@@ -55,7 +62,7 @@ namespace RichEditOpenAIWebApi.Controllers
         {
             try
             {
-                var imageHelper = new OpenAIClientImageHelper(openAIApiKey);
+                var imageHelper = new ImageHelper(_chatClient);
                 using (var workbook = new Workbook())
                 {
                     await SpreadsheetHelper.LoadWorkbook(workbook, documentWithImage);
@@ -65,7 +72,8 @@ namespace RichEditOpenAIWebApi.Controllers
                         foreach (var chart in worksheet.Charts)
                         {
                             OfficeImage image = chart.ExportToImage();
-                            chart.AlternativeText = imageHelper.DescribeImageAsync(image).Result;
+                            string description = await imageHelper.DescribeImageAsync(image);
+                            chart.AlternativeText = description;
                         }
                     }
 
@@ -86,7 +94,7 @@ namespace RichEditOpenAIWebApi.Controllers
         {
             try
             {
-                var hyperlinkHelper = new OpenAIClientHyperlinkHelper(openAIApiKey);
+                var hyperlinkHelper = new HyperlinkHelper(_chatClient);
                 using (var wordProcessor = new RichEditDocumentServer())
                 {
                     await RichEditHelper.LoadFile(wordProcessor, documentWithHyperlinks);
@@ -97,7 +105,7 @@ namespace RichEditOpenAIWebApi.Controllers
                         {
                             if (string.IsNullOrEmpty(hyperlink.ToolTip) || hyperlink.ToolTip == hyperlink.NavigateUri)
                             {
-                                hyperlink.ToolTip = hyperlinkHelper.DescribeHyperlinkAsync(hyperlink.NavigateUri).Result;
+                                hyperlink.ToolTip = await hyperlinkHelper.DescribeHyperlinkAsync(hyperlink.NavigateUri);
                             }
                         }
                     });
@@ -118,7 +126,7 @@ namespace RichEditOpenAIWebApi.Controllers
         {
             try
             {
-                var hyperlinkHelper = new OpenAIClientHyperlinkHelper(openAIApiKey);
+                var hyperlinkHelper = new HyperlinkHelper(_chatClient);
                 using (var workbook = new Workbook())
                 {
                     await SpreadsheetHelper.LoadWorkbook(workbook, documentWithHyperlinks);
@@ -127,8 +135,8 @@ namespace RichEditOpenAIWebApi.Controllers
                     {
                         foreach (var hyperlink in worksheet.Hyperlinks)
                         {
-                            if(hyperlink.IsExternal && (string.IsNullOrEmpty(hyperlink.TooltipText) || hyperlink.TooltipText == hyperlink.Uri))
-                            hyperlink.TooltipText = hyperlinkHelper.DescribeHyperlinkAsync(hyperlink.Uri).Result;
+                            if (hyperlink.IsExternal && (string.IsNullOrEmpty(hyperlink.TooltipText) || hyperlink.TooltipText == hyperlink.Uri))
+                                hyperlink.TooltipText = await hyperlinkHelper.DescribeHyperlinkAsync(hyperlink.Uri);
                         }
                     }
 
@@ -142,6 +150,6 @@ namespace RichEditOpenAIWebApi.Controllers
             {
                 return StatusCode(500, e.Message + Environment.NewLine + e.StackTrace);
             }
-        }        
+        }
     }
 }

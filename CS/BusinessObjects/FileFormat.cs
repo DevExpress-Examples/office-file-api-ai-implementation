@@ -18,6 +18,13 @@
         Dot = 15,
     }
 
+    public enum RichEditDocumentPart
+    {
+        WholeDocument = 1,
+        FirstPage = 2,
+        FirstSection = 3,
+    }
+
     public enum SpreadsheetFormat
     {
         Xls = 1,
@@ -30,6 +37,33 @@
         Xlsb = 11,
         XmlSpreadsheet2003 = 12,
         Pdf = 13,
+    }
+
+    public enum PresentationFormat
+    {
+        Pptx = 1,
+        Ppt = 2,
+        Pdf = 3,
+    }
+
+    public enum PresentationPart
+    {
+        WholePresentation = 1,
+        FirstSlide = 2,
+    }
+
+    public enum PdfPart
+    {
+        WholeDocument = 1,
+        FirstPage = 2,
+    }
+    public enum TranslationLang
+    {
+        English = 1,
+        Spanish = 2,
+        French = 3,
+        German = 4,
+
     }
 
 }

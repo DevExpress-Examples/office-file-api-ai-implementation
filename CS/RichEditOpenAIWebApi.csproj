@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>c8ad3c81-f33a-4c4a-b63f-5d8d4c6a43b8</UserSecretsId>
@@ -10,15 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.17" />
-    <PackageReference Include="Azure.AI.TextAnalytics" Version="5.3.0" />
-    <PackageReference Include="Azure.AI.Translation.Text" Version="1.0.0" />
-    <PackageReference Include="DevExpress.Document.Processor" Version="23.2.5" />
-    <PackageReference Include="DevExpress.Drawing.Skia" Version="23.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+    <PackageReference Include="Azure.AI.OpenAI" Version="2.7.0-beta.2" />
+    <PackageReference Include="DevExpress.AIIntegration.Docs" Version="25.2.3-pre-25344" />
+	  <PackageReference Include="DevExpress.AIIntegration" Version="25.2.3-pre-25344" />
+    <PackageReference Include="DevExpress.Docs.Presentation" Version="25.2.3-pre-25344" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="25.2.3-pre-25344" />
+    <PackageReference Include="DevExpress.Drawing.Skia" Version="25.2.3-pre-25344" />
+    <PackageReference Include="Microsoft.Extensions.AI" Version="10.1.0" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.0-preview.1.25608.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0-preview.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.0.1" />
   </ItemGroup>
 
 </Project>
