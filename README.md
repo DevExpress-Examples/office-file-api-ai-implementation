@@ -4,40 +4,50 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 [![](https://img.shields.io/badge/💬_Leave_Feedback-feecdd?style=flat-square)](#does-this-example-address-your-development-requirementsobjectives)
 <!-- default badges end -->
-# Office File API – Integrate AI
+# Office File API – Integrate DevExpress AI-powered Extensions
 
-The following project integrates AI capabilities into a DevExpress-powered Office File API Web API application. This project uses the following AI services:
-* OpenAI API generates descriptions for images, charts and hyperlinks in Microsoft Word and Excel files.
-* Azure AI Language API detects the language for text paragraphs in Word files.
-* Azure AI Translator API translates paragraph text to the chosen language in Word files.
+The following project integrates AI capabilities into a DevExpress-powered Office File API Web API application. This project uses the DevExpress AI-powered extension to complete the following tasks:
+
+* DevExpress AI-powered extensions generate descriptions for images, charts, and hyperlinks in Microsoft Word and Excel files.
+* DevExpress document-processing AI-powered extensions summarize, translate, and proofread Word, PDF, and Presentation files.
 
 > [!note]
-> Before you incorporate this solution in your app, please be sure to read and understand terms and conditions of using AI services.
+> DevExpress AI-powered extensions operate on a “bring your own key” (BYOK) model. We do not provide a proprietary REST API or bundled language models (LLMs/SLMs).
+>
+> You can either deploy a self-hosted model or connect to a cloud AI provider and obtain necessary connection parameters (endpoint, API key, language model identifier, and so on). These parameters must be configured at application startup to register an AI client and enable extension functionality.
 
 ## Implementation Details
 
-The project uses the [Azure.AI.OpenAI](https://www.nuget.org/packages/Azure.AI.OpenAI/), [Azure.AI.TextAnalytics](https://www.nuget.org/packages/Azure.AI.TextAnalytics) and [Azure.AI.Translation.Text](https://www.nuget.org/packages/Azure.AI.Translation.Text) NuGet packages. Azure.AI.OpenAI adapts OpenAI's REST APIs for use in non-Azure OpenAI development. Azure.AI.TextAnalytics and Azure.AI.Translation.Text require an Azure subscription. Once you obtain it, create a [Language resource](https://learn.microsoft.com/en-us/azure/ai-services/language-service/language-detection/quickstart?tabs=windows&pivots=programming-language-csharp#create-an-azure-resource) and a [Translator resource](https://learn.microsoft.com/en-us/azure/ai-services/translator/create-translator-resource) (or a single [multi-service resource](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?tabs=windows&pivots=azportal)) in the Azure portal to get your keys and endpoints for client authentication.
+This project uses both common and document-processing AI-powered extension methods. The [IChatClient](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.ai.ichatclient) interface serves as the central mechanism for language model interaction. DevExpress AI-powered extensions run inside an [AIExtensionsContainerDefault](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIExtensionsContainerDefault) container that manages registered AI clients. Call the `AddDevExpressAIConsole` method to register a chat client in a Web API application. 
 
-`OpenAIController` includes endpoints to generate image, chart and hyperlink descriptions. The `OpenAIClientImageHelper` class sends a request to describe an image and obtains a string with a response. The `OpenAIClientHyperlinkHelper` class sends a request to describe an hyperlink and obtains a string with a response. The `OpenAIClientImageHelper.DescribeImageAsync` and `OpenAIClientHyperlinkHelper.DescribeHyperlinkAsync` methods are executed within the corresponding endpoints.
-For Excel files, charts are converted to images to obtain relevant descriptions.
+Call the [RegisterAIDocProcessingService(AIExtensionsContainerSettings)](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.AIDocProcessingExtensions.RegisterAIDocProcessingService(DevExpress.AIIntegration.AIExtensionsContainerSettings)) method to register document-processing AI extensions in your dependency injection container.
 
-`LanguageController` includes the endpoint to detect the language for text paragraphs and generate paragraph transaltions. The `AzureAILanguageHelper` class sends a request to detect the language of the specified text and returns the language name in the "ISO 693-1" format. The `AzureAITranslationHelper` class sends a request to translate the given text to the specified language and returns the transaled text string. The `AzureAILanguageHelper.DetectTextLanguage` and `AzureAITranslationHelper.TranslateText` methods are executed in the  `GenerateLanguageSettingsForParagraphs` endpoint.
+The table below lists controllers that use DevExpress AI-powered extensions and corresponding registration methods.
+
+| Controller | Description | API |
+|--|----|--|
+| `AccessibilityController` | Endpoints to generate image, chart, and hyperlink and descriptions.<br/> For Excel files, charts are converted to images to obtain relevant descriptions. | [GenerateImageDescriptionAsync](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIIntegration.GenerateImageDescriptionAsync(IAIExtensionsContainer--GenerateImageDescriptionRequest--CancellationToken))<br/>[CustomPromptAsync](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIIntegration.CustomPromptAsync(IAIExtensionsContainer--CustomPromptRequest--CancellationToken)) |
+| `SummarizeController` | Endpoints to produce a concise summary for an entire document/presentation or selected parts (slides, pages, sections). | [SummarizeAsync](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.IAIDocProcessingService.SummarizeAsync.overloads) |
+| `ProofreadController` | Endpoints to review entire document/presentation or selected parts (slides, pages, sections) for grammar, spelling, and style in real-time.  | [ProofreadAsync](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.IAIDocProcessingService.ProofreadAsync.overloads) |
+| `TranslateController` | Includes endpoints to translate full document/presentation content or selected parts (slides, pages, sections). | [TranslateAsync](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.IAIDocProcessingService.TranslateAsync.overloads) |
+
 
 ## Files to Review
 
-* [OpenAIController.cs](./CS/Controllers/OpenAIController.cs)
-* [LanguageController.cs](./CS/Controllers/LanguageController.cs)
-* [OpenAIClientImageHelper.cs](./CS/BusinessObjects/OpenAIClientImageHelper.cs)
-* [OpenAIClientHyperlinkHelper.cs](./CS/BusinessObjects/OpenAIClientHyperlinkHelper.cs)
-* [AzureAILanguageHelper.cs](./CS/BusinessObjects/AzureAILanguageHelper.cs)
-* [AzureAITranslationHelper.cs](./CS/BusinessObjects/AzureAITranslationHelper.cs)
+* [Program.cs](./CS/Program.cs)
+* [AccessibilityController.cs](./CS/Controllers/AccessibilityController.cs)
+* [SummarizeController.cs](./CS/Controllers/SummarizeController.cs)
+* [ProofreadController.cs](./CS/Controllers/ProofreadController.cs)
+* [TranslateController.cs](./CS/Controllers/TranslateController.cs)
 * [Helpers.cs](./CS/BusinessObjects/Helpers.cs)
 
 ## Documentation
 
+* [AI-powered Extensions for DevExpress Office File API](https://docs.devexpress.com/OfficeFileAPI/405645/ai-powered-extensions)
 * [Office File API — Enhance Accessibility in Office Documents (Word & Excel) using OpenAI Models](https://community.devexpress.com/blogs/office/archive/2024/05/08/enhance-accessibility-in-office-documents-word-and-excel-using-artificial-intelligence-system.aspx)
 * [Office File API — Enhance Accessibility in Office Documents using OpenAI Models (Part 2)](https://community.devexpress.com/blogs/office/archive/2024/06/03/office-file-api-enhance-accessibility-in-office-documents-word-amp-excel-using-openai-models-part-2.aspx)
 <!-- feedback -->
+
 ## Does this example address your development requirements/objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=office-file-api-ai-implementation&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=office-file-api-ai-implementation&~~~was_helpful=no)
