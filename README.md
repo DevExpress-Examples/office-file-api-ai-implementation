@@ -5,7 +5,7 @@
 <!-- default badges end -->
 # Office File API – Integrate DevExpress AI-powered Extensions
 
-The following project integrates AI capabilities into a DevExpress-powered Office File API Web API application. This project uses the DevExpress AI-powered extension to complete the following tasks:
+This project integrates AI capabilities into a Web application that handles user documents. DevExpress Office File API and DevExpress AI-powered Extensions work together to implement the following functionality:
 
 * DevExpress AI-powered extensions generate descriptions for images, charts, and hyperlinks in Microsoft Word and Excel files.
 * DevExpress document-processing AI-powered extensions summarize, translate, and proofread Word, PDF, and Presentation files.
