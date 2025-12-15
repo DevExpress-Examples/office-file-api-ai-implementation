@@ -11,9 +11,7 @@ This project integrates AI capabilities into a Web application that handles user
 * DevExpress document-processing AI-powered extensions summarize, translate, and proofread Word, PDF, and Presentation files.
 
 > [!note]
-> DevExpress AI-powered extensions operate on a “bring your own key” (BYOK) model. We do not provide a proprietary REST API or bundled language models (LLMs/SLMs).
->
-> You can either deploy a self-hosted model or connect to a cloud AI provider and obtain necessary connection parameters (endpoint, API key, language model identifier, and so on). These parameters must be configured at application startup to register an AI client and enable extension functionality.
+> DevExpress does not offer a REST API or ship any built-in LLMs/SLMs. Instead, we follow the BYOL ("bring your own license") principle. To use these features, you need to have an active subscription to AI services (e.g., Azure, Open AI, Google Gemini, Mistral AI, etc.) and obtain the REST API endpoint, key, and model deployment name. These variables must be specified at runtime to enable DevExpress AI-powered Extensions in your application.
 
 ## Implementation Details
 
