@@ -27,7 +27,7 @@ The table below lists controllers that use DevExpress AI-powered extensions and 
 
 | Controller | Description | API |
 |--|----|--|
-| `AccessibilityController` | Endpoints that generate image, chart, and hyperlink descriptions.<br/> In Excel files, charts are converted to images to obtain relevant descriptions. | [GenerateImageDescriptionAsync](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIIntegration.GenerateImageDescriptionAsync(IAIExtensionsContainer--GenerateImageDescriptionRequest--CancellationToken))<br/>[CustomPromptAsync](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIIntegration.CustomPromptAsync(IAIExtensionsContainer--CustomPromptRequest--CancellationToken)) |
+| `AccessibilityController` | Endpoints that generate image, chart, and hyperlink descriptions. In Excel files, charts are converted to images to obtain relevant descriptions. | [GenerateImageDescriptionAsync](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIIntegration.GenerateImageDescriptionAsync(IAIExtensionsContainer--GenerateImageDescriptionRequest--CancellationToken)), [CustomPromptAsync](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIIntegration.CustomPromptAsync(IAIExtensionsContainer--CustomPromptRequest--CancellationToken)) |
 | `SummarizeController` | Endpoints that produce a concise summary for an entire document/presentation or selected parts (slides, pages, sections). | [SummarizeAsync](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.IAIDocProcessingService.SummarizeAsync.overloads) |
 | `ProofreadController` | Endpoints that review grammar, spelling, and style in an entire document/presentation or selected parts (slides, pages, sections).  | [ProofreadAsync](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.IAIDocProcessingService.ProofreadAsync.overloads) |
 | `TranslateController` | Endpoints that translate a document/presentation or its selected parts (slides, pages, sections). | [TranslateAsync](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.IAIDocProcessingService.TranslateAsync.overloads) |
@@ -54,4 +54,5 @@ The table below lists controllers that use DevExpress AI-powered extensions and 
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
 
