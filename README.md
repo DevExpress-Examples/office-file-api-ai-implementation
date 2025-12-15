@@ -8,7 +8,7 @@
 This project integrates AI capabilities into a Web application that handles user documents. DevExpress Office File API and DevExpress AI-powered Extensions work together to implement the following functionality:
 
 * DevExpress AI-powered extensions generate descriptions for images, charts, and hyperlinks in Microsoft Word and Excel files.
-* DevExpress document-processing AI-powered extensions summarize, translate, and proofread Word, PDF, and Presentation files.
+* Summarize, translate, and proofread office files (Word, PDF, and PowerPoint).
 
 > [!note]
 > DevExpress does not offer a REST API or ship any built-in LLMs/SLMs. Instead, we follow the BYOL ("bring your own license") principle. To use these features, you need to have an active subscription to AI services (e.g., Azure, Open AI, Google Gemini, Mistral AI, etc.) and obtain the REST API endpoint, key, and model deployment name. These variables must be specified at runtime to enable DevExpress AI-powered Extensions in your application.
