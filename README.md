@@ -15,7 +15,10 @@ This project integrates AI capabilities into a Web application that handles user
 
 ## Implementation Details
 
-This project uses both common and document-processing AI-powered extension methods. The [IChatClient](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.ai.ichatclient) interface serves as the central mechanism for language model interaction. DevExpress AI-powered extensions run inside an [AIExtensionsContainerDefault](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIExtensionsContainerDefault) container that manages registered AI clients. Call the `AddDevExpressAIConsole` method to register a chat client in a Web API application. 
+DevExpress AI-powered extensions run inside an [AIExtensionsContainerDefault](https://docs.devexpress.com/CoreLibraries/DevExpress.AIIntegration.AIExtensionsContainerDefault) container that manages registered AI clients.
+
+The [IChatClient](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.ai.ichatclient) interface serves as the central mechanism for language model interaction.  The `AddDevExpressAIConsole` method registers a chat client in the application. 
+
 
 The [RegisterAIDocProcessingService(AIExtensionsContainerSettings)](https://docs.devexpress.com/OfficeFileAPI/DevExpress.AIIntegration.Docs.AIDocProcessingExtensions.RegisterAIDocProcessingService(DevExpress.AIIntegration.AIExtensionsContainerSettings)) method registers document-processing AI extensions in a dependency injection container.
 
