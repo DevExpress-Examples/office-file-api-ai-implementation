@@ -17,8 +17,8 @@ RUN apt install -y ttf-mscorefonts-installer
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
  
-# Specify your DevExpress NuGet Feed URL as the package source
-RUN dotnet nuget add source https://nuget.devexpress.com/{your-authorization-key}/api
+# nuget.org is the default package source in the SDK image, no need to add it explicitly
+# RUN dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
 # Copy the project file
 COPY ["RichEditOpenAIWebApi.csproj", "."]
  
