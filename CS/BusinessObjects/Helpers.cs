@@ -57,7 +57,23 @@ namespace RichEditOpenAIWebApi.BusinessObjects
                 server.ExportToPdf(resultStream);
             else
             {
-                RichEditDocumentFormat documentFormat = new RichEditDocumentFormat((int)outputFormat);
+                RichEditDocumentFormat documentFormat = outputFormat switch
+                {
+                    RichEditFormat.Txt => RichEditDocumentFormat.PlainText,
+                    RichEditFormat.Rtf => RichEditDocumentFormat.Rtf,
+                    RichEditFormat.Html => RichEditDocumentFormat.Html,
+                    RichEditFormat.Docx => RichEditDocumentFormat.OpenXml,
+                    RichEditFormat.Mht => RichEditDocumentFormat.Mht,
+                    RichEditFormat.Xml => RichEditDocumentFormat.WordML,
+                    RichEditFormat.Odt => RichEditDocumentFormat.OpenDocument,
+                    RichEditFormat.ePub => RichEditDocumentFormat.ePub,
+                    RichEditFormat.Doc => RichEditDocumentFormat.Doc,
+                    RichEditFormat.Docm => RichEditDocumentFormat.Docm,
+                    RichEditFormat.Dotx => RichEditDocumentFormat.Dotx,
+                    RichEditFormat.Dotm => RichEditDocumentFormat.Dotm,
+                    RichEditFormat.Dot => RichEditDocumentFormat.Dot,
+                    _ => throw new NotSupportedException($"Document format '{outputFormat}' is not supported.")
+                };
                 if (documentFormat == RichEditDocumentFormat.Html)
                     server.Options.Export.Html.EmbedImages = true;
                 if (encryptionSettings == null)
@@ -117,9 +133,24 @@ namespace RichEditOpenAIWebApi.BusinessObjects
         {
             MemoryStream resultStream = new MemoryStream();
 
-            SpreadsheetDocumentFormat documentFormat = new SpreadsheetDocumentFormat((int)outputFormat);
+            SpreadsheetDocumentFormat documentFormat = outputFormat switch
+            {
+                SpreadsheetFormat.Xls => SpreadsheetDocumentFormat.Xls,
+                SpreadsheetFormat.Xlsx => SpreadsheetDocumentFormat.Xlsx,
+                SpreadsheetFormat.Html => SpreadsheetDocumentFormat.Undefined,
+                SpreadsheetFormat.Xlsm => SpreadsheetDocumentFormat.Xlsm,
+                SpreadsheetFormat.Xlt => SpreadsheetDocumentFormat.Xlt,
+                SpreadsheetFormat.Xltx => SpreadsheetDocumentFormat.Xltx,
+                SpreadsheetFormat.Xltm => SpreadsheetDocumentFormat.Xltm,
+                SpreadsheetFormat.Xlsb => SpreadsheetDocumentFormat.Xlsb,
+                SpreadsheetFormat.XmlSpreadsheet2003 => SpreadsheetDocumentFormat.XmlSpreadsheet2003,
+                SpreadsheetFormat.Pdf => SpreadsheetDocumentFormat.Undefined,
+                _ => throw new NotSupportedException($"Spreadsheet format '{outputFormat}' is not supported.")
+            };
             if (outputFormat == SpreadsheetFormat.Pdf)
                 workbook.ExportToPdf(resultStream);
+            else if (outputFormat == SpreadsheetFormat.Html)
+                workbook.ExportToHtml(resultStream, workbook.Worksheets.ActiveWorksheet.Index);
             else
             {
 
@@ -186,7 +217,11 @@ namespace RichEditOpenAIWebApi.BusinessObjects
                 presentation.ExportToPdf(resultStream);
             else
             {
-                PresentationDocumentFormat documentFormat = new PresentationDocumentFormat((int)outputFormat);
+                PresentationDocumentFormat documentFormat = outputFormat switch
+                {
+                    PresentationFormat.Pptx => PresentationDocumentFormat.Pptx,
+                    _ => throw new NotSupportedException($"Presentation format '{outputFormat}' is not supported.")
+                };
                 presentation.SaveDocument(resultStream, documentFormat);
             }
             resultStream.Seek(0, SeekOrigin.Begin);
